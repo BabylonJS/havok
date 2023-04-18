@@ -19,3 +19,5 @@ else if (typeof define === 'function' && define['amd'])
   define([], function() { return HavokPhysics; });
 else if (typeof exports === 'object')
   exports["HavokPhysics"] = HavokPhysics;
+else
+    globalThis["HavokPhysics"] = HavokPhysics;
