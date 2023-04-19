@@ -1,0 +1,26 @@
+{
+  "name": "@babylonjs/havok",
+  "version": "1.0.0",
+  "description": "The Havok physics engine for the web",
+  "main": "lib/umd/HavokPhysics.js",
+  "module": "lib/esm/HavokPhysics.js",
+  "files": [
+    "lib/**/*.*",
+    "HavokPhysics.d.ts",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "require": "./lib/umd/HavokPhysics_umd.js",
+      "import": "./lib/esm/HavokPhysics_es.js"
+    }
+  },
+  "scripts": {},
+  "author": "Babylon.js",
+  "license": "MIT",
+  "types": "./HavokPhysics.d.ts",
+  "dependencies": {
+    "@types/emscripten": "^1.39.6"
+  },
+  "type": "module"
+}
