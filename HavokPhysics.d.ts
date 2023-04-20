@@ -142,10 +142,6 @@ export type ObjectStatistics = [
 export interface HavokPhysicsWithBindings extends EmscriptenModule {
     /* Return statistics on the number of allocated objects in the plugin */
     HP_GetStatistics(): [Result, ObjectStatistics];
-    /** Configures the collision filter to enable/disable a particular pair of bodies from colliding. */
-    HP_SetBodyCollisionEnabled(bodyA : HP_BodyId, bodyB : HP_BodyId, isEnabled : number): Result;
-    /** Gets the configuration of the collision filter for the two specified bodies. */
-    HP_GetBodyCollisionEnabled(bodyA : HP_BodyId, bodyB : HP_BodyId): [Result, number];
     /** Creates geometry representing a sphere. */ 
     HP_Shape_CreateSphere(center : Vector3, radius : number): [Result, HP_ShapeId];
     /** Creates a geometry representing a capsule. */ 
@@ -189,24 +185,10 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Shape_RemoveChild(container : HP_ShapeId, childIndex : number): Result;
     /** Get the number of children of the container. */ 
     HP_Shape_GetNumChildren(container : HP_ShapeId): [Result, number];
-    /** Changes the child shape at `index` of `container` to `newChild`. The transform of the child is unchanged. */ 
-    HP_Shape_SetChildShape(container : HP_ShapeId, index : number, newChild : HP_ShapeId): Result;
-    /** Get the shape at index `index` inside `container`. */ 
-    HP_Shape_GetChildShape(container : HP_ShapeId, index : number): [Result, HP_ShapeId];
-    /** Change the transform of the child at index `index` of `container`. */ 
-    HP_Shape_SetChildQTransform(container : HP_ShapeId, index : number, containerFromChild : QSTransform): Result;
-    /** Get the transform of the child at index `index` of `container` (in the space of the container.) */ 
-    HP_Shape_GetChildQSTransform(container : HP_ShapeId, index : number): [Result, QSTransform];
     /** Get the type of the shape - CONTAINER or COLLIDER. */ 
     HP_Shape_GetType(shape : HP_ShapeId): [Result, ShapeType];
-    /** Sets an arbitrary user data on the shape. Not used by the engine. */ 
-    //HP_Shape_SetUserData(shape : HP_ShapeId, userdata : number): Result;
-    /** Gets the user data associated with the shape. */ 
-    //HP_Shape_GetUserData(shape : HP_ShapeId): [Result, number];
     /** Release a shape, freeing memory if it is unused. */ 
     HP_Shape_Release(shape : HP_ShapeId): Result;
-    /** Calculate the axis-aligned bounding box of the shape (in shape space) */ 
-    HP_Shape_GetBoundingBox(shape : HP_ShapeId): [Result, Aabb];
     /** Calculates the mass properties of the shape. */ 
     HP_Shape_BuildMassProperties(shape : HP_ShapeId): [Result, MassProperties];
     /** Allows descending a hierarchy of shape containers, advancing `curItem` to the next entry. */ 
@@ -251,29 +233,13 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Body_SetGravityFactor(bodyId : HP_BodyId, factor : number): Result;
     /** Get the gravity factor of a body. */ 
     HP_Body_GetGravityFactor(bodyId : HP_BodyId): [Result, number];
-    /** Sets an arbitrary user data on the body. Unused by the engine. */ 
-    //HP_Body_SetUserData(bodyId : HP_BodyId, userData : number): Result;
-    /** Get the user data associated with a body. */ 
-    //HP_Body_GetUserData(bodyId : HP_BodyId): [Result, number];
     /* Return the offet of the memory containing the body's transform from the
      * world's body buffer. This is only valid if the body is in the world. */
     HP_Body_GetWorldTransformOffset( bodyId: HP_BodyId ): [Result, number];
-    /** Sets the position of the body (in world space.) */ 
-    HP_Body_SetPosition(bodyId : HP_BodyId, position : Vector3): Result;
-    /** Get the position of the body (in world space.) */ 
-    HP_Body_GetPosition(bodyId : HP_BodyId): [Result, Vector3];
-    /** Set the orientation of the body (in world space.) */ 
-    HP_Body_SetOrientation(bodyId : HP_BodyId, orientation : Quaternion): Result;
-    /** Get the orientation of the body (in world space.) */ 
-    HP_Body_GetOrientation(bodyId : HP_BodyId): [Result, Quaternion];
     /** Set the transform of the body (in world space.) */ 
     HP_Body_SetQTransform(bodyId : HP_BodyId, transform : QTransform): Result;
     /** Get the transform of the body (in world space.) */ 
     HP_Body_GetQTransform(bodyId : HP_BodyId): [Result, QTransform];
-    /** Set the transform of the body (in world space.) */ 
-    HP_Body_SetTransform(bodyId : HP_BodyId, transform : Transform): Result;
-    /** Get the transform of the body (in world space.) */ 
-    HP_Body_GetTransform(bodyId : HP_BodyId): [Result, Transform];
      /** Set the linear velocity of a body. No effect on STATIC bodies. */ 
     HP_Body_SetLinearVelocity(bodyId : HP_BodyId, linVel : Vector3): Result;
     /** Get the linear velocity of a body. */ 
@@ -286,12 +252,6 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Body_SetTargetQTransform(bodyId : HP_BodyId, transform : QTransform): Result;
     /** Apply the impulse `impulse` to the body at the position `location` in world space. */ 
     HP_Body_ApplyImpulse(bodyId : HP_BodyId, location : Vector3, impulse : Vector3): Result;
-    /** Get the number of constraints which are associated with this body. */ 
-    HP_Body_GetNumConstraints(bodyId : HP_BodyId): [Result, number];
-    /** Get the handle to the constraint at index `index` on the body. */ 
-    HP_Body_GetConstraint(bodyId : HP_BodyId, index : number): [Result, HP_ConstraintId];
-    /** Get the bounding box of the body (in world space) */ 
-    HP_Body_GetBoundingBox(bodyId : HP_BodyId): [Result, Aabb];
     /** Allocates a new handle for a constraint object, which limits the relative movement between two bodies. */ 
     HP_Constraint_Create(): [Result, HP_ConstraintId];
     /** Release the constraint handle, freeing it's memory if not in use. */ 
@@ -322,10 +282,6 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Constraint_SetEnabled(constraint : HP_ConstraintId, isEnabled : number): Result;
     /** Whether the constraint is enabled or not. */ 
     HP_Constraint_GetEnabled(constraint : HP_ConstraintId): [Result, number];
-    /** Sets an arbitrary user data on the constraint. Not used by the engine. */ 
-    //HP_Constraint_SetUserData(constraint : HP_ConstraintId, userData : number): Result;
-    /** Retrieve the user data associated with a constraint. */ 
-    //HP_Constraint_GetUserData(constraint : HP_ConstraintId): [Result, number];
     /** By default, a constraint will not allow collisions to occur between the two connected bodies. A non-zero value for isEnabled will change that behaviour. */ 
     HP_Constraint_SetCollisionsEnabled(constraint : HP_ConstraintId, isEnabled : number): Result;
     /** Retrieve whether collisions are enabled for an individual constraint. */ 
@@ -372,10 +328,6 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
      * body is added to the world.
      */
     HP_World_GetBodyBuffer(world: HP_WorldId): [Result, number];
-    /** Sets an arbitrary user data on the world. Not used by the engine. */ 
-    //HP_World_SetUserData(world : HP_WorldId, userData : number): Result;
-    /** Retrieve the user data associated with a world. */ 
-    //HP_World_GetUserData(world : HP_WorldId): [Result, number];
     /** Set the global acceleration due to gravity of a world. This is applied to all DYNAMIC bodies each step. */ 
     HP_World_SetGravity(world : HP_WorldId, gravity : Vector3): Result;
     /** Adds a body to the world, where it will partake in the simulation in the next step. A body can only be in a single world at a time. */ 
@@ -384,19 +336,6 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_World_RemoveBody(world : HP_WorldId, body: HP_BodyId): Result;
     /** Return the number of bodies added to the world. */ 
     HP_World_GetNumBodies(world : HP_WorldId): [Result, number];
-    /** Get the next (after prevBody) body that is added to the world. Pass a HP_BodyId with a value of 0 to get the first body in the list. */ 
-    HP_World_GetNextBody(world : HP_WorldId, prevBody : HP_BodyId): [Result, HP_BodyId];
-    /** Get the bounding box for all bodies contained in the world. */ 
-    HP_World_GetBoundingBox(world : HP_WorldId): [Result, Aabb];
-    /** Allocates a query collector with sufficient capacity to store the requested number of hits. */ 
-    HP_QueryCollector_Create(hitCapacity : number): [Result, HP_CollectorId];
-    /** Releases a query collector handle, returning the memory to the plugin. */ 
-    HP_QueryCollector_Release(collector : HP_CollectorId): Result;
-    /** Get the number of hits currently stored in the collector. */ 
-    HP_QueryCollector_GetNumHits(collector : HP_CollectorId): [Result, number];
-    /** Get the raycast result stored at hitIndex in the collector.
-     * Only valid if the last query performed with this collector was a raycast. */ 
-    HP_QueryCollector_GetCastRayResult(collector : HP_CollectorId, hitIndex : number): [Result, RayCastResult];
     /** Perform the raycast described by `query` against the bodies added to the world, storing the results in collector.
      * Collector will be cleared of any previous results. */ 
     HP_World_CastRayWithCollector(world : HP_WorldId, collector : HP_CollectorId, query : RayCastInput): Result;
@@ -409,9 +348,19 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     /** Convert a collision event ID to a concrete type */
     HP_Event_AsCollision(eventId : number): [Result, CollisionEvent];
 
-    /** Start recording performance counters for a single world */
+    /** Allocates a query collector with sufficient capacity to store the requested number of hits. */ 
+    HP_QueryCollector_Create(hitCapacity : number): [Result, HP_CollectorId];
+    /** Releases a query collector handle, returning the memory to the plugin. */ 
+    HP_QueryCollector_Release(collector : HP_CollectorId): Result;
+    /** Get the number of hits currently stored in the collector. */ 
+    HP_QueryCollector_GetNumHits(collector : HP_CollectorId): [Result, number];
+    /** Get the raycast result stored at hitIndex in the collector.
+     * Only valid if the last query performed with this collector was a raycast. */ 
+    HP_QueryCollector_GetCastRayResult(collector : HP_CollectorId, hitIndex : number): [Result, RayCastResult];
+
+    /** Start recording performance counters for a single world. Only available in development builds. */
     HP_Debug_StartRecordingStats(world: HP_WorldId): Result;
-    /** Stop recording performance counters for a world.
+    /** Stop recording performance counters for a world. Only available in development builds.
      * This will call a method 'timerData' on the callback object, which can
      * retrieve statistics formatted in XML, for use with hkMonitor */
     HP_Debug_StopRecordingStats(world: HP_WorldId, callback: any): Result;
