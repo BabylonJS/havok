@@ -1,6 +1,6 @@
-# Havok for Web
+# Havok for the Web
 
-This package contains an esm and umd version of the Havok physics library.
+This package contains an esm and umd version of the Havok physics library for the web.
 
 ## How to use
 
@@ -25,8 +25,12 @@ Havok is fully integrated in Babylon.js. To use it in a Babylon project, pass it
 ```javascript
 import { PhysicsEngine, HavokPlugin } from "@babylonjs/core/Physics";
 
-const plugin = new HavokPlugin(undefined /* the value that fits your usecase */, havokInterface);
-scene.enablePhysics(undefined /* the value that fits your usecase, for example: new Vector3(0, -9.81, 0) */, plugin);
+const plugin = new HavokPlugin(undefined /* or the value that fits your usecase */, havokInterface);
+scene.enablePhysics(undefined /* or the value that fits your usecase, for example: new Vector3(0, -9.81, 0) */, plugin);
 ```
 
 And you are good to go!
+
+## Questions
+
+The babylon team will be happy to answer any questions! Please contact us at https://forum.babylonjs.com
