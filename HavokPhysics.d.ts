@@ -38,7 +38,9 @@ export enum MotionType {
 export enum EventType {
     COLLISION_STARTED,
     COLLISION_CONTINUED,
-    COLLISION_FINISHED
+    COLLISION_FINISHED,
+    TRIGGER_ENTERED,
+    TRIGGER_EXITED
 }
 
 export enum ConstraintMotorType {
@@ -63,13 +65,6 @@ export enum ConstraintAxis {
     LINEAR_DISTANCE
 }
 
-export type MassProperties = [
-    /* center of mass */ Vector3,
-    /* Mass */ number,
-    /* Inertia for mass of 1*/ Vector3,
-    /* Inertia Orientation */ Quaternion
-];
-
 export enum MaterialCombine {
     GEOMETRIC_MEAN,
     MINIMUM,
@@ -77,6 +72,24 @@ export enum MaterialCombine {
     ARITHMETIC_MEAN,
     MULTIPLY
 }
+
+export enum ActivationState {
+    ACTIVE,
+    INACTIVE
+}
+
+export enum ActivationControl {
+    SIMULATION_CONTROLLED,
+    ALWAYS_ACTIVE,
+    ALWAYS_INACTIVE
+}
+
+export type MassProperties = [
+    /* center of mass */ Vector3,
+    /* Mass */ number,
+    /* Inertia for mass of 1*/ Vector3,
+    /* Inertia Orientation */ Quaternion
+];
 
 export type PhysicsMaterial = [
     /* static friction */ number,
@@ -123,6 +136,15 @@ export type CollisionEvent = [
     /* Contact on body B */ ContactPoint,
     /* Impulse applied */ number
 ];
+
+export type TriggerEvent = [
+    /* type */ EventType,
+    /* Body A ID */ HP_BodyId,
+    /* Body A shape */ HP_ShapeId,
+    /* Body B ID */ HP_BodyId,
+    /* Body B shape */ HP_ShapeId
+];
+
 export type DebugGeometryInfo = [
     /* Address of vertex (float3) buffer in plugin */ number,
     /* Number of vertices in the buffer */ number,
@@ -193,6 +215,13 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Shape_BuildMassProperties(shape : HP_ShapeId): [Result, MassProperties];
     /** Allows descending a hierarchy of shape containers, advancing `curItem` to the next entry. */ 
     HP_Shape_PathIterator_GetNext(curItem : ShapePathIterator): [Result, ShapePathIterator, number];
+    /** Mark this shape as a trigger. A trigger will generate events, rather than applying impulses to prevent overlap.
+     *  Any material set on this shape will be unused. This has no effect on container shapes, as they don't have any
+     *  geometry themselves.
+     *  Note: Currently, when one of the shapes overlapping a trigger is a mesh shape, one event will be raised per
+     *  overlapping triangle. This is subject to change, as it can cause performance issues.
+     */
+    HP_Shape_SetTrigger(shape: HP_ShapeId, isTrigger: boolean): Result;
 
     /** Generates a visualization of a shape's geometry, suitable for debugging. */
     HP_Shape_CreateDebugDisplayGeometry( shape : HP_ShapeId ) : [Result, HP_DebugGeometryId];
@@ -252,6 +281,16 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Body_SetTargetQTransform(bodyId : HP_BodyId, transform : QTransform): Result;
     /** Apply the impulse `impulse` to the body at the position `location` in world space. */ 
     HP_Body_ApplyImpulse(bodyId : HP_BodyId, location : Vector3, impulse : Vector3): Result;
+    /** Try to set the activation state of a body. */
+    HP_Body_SetActivationState(bodyId: HP_BodyId, activationState: ActivationState): Result;
+    /** Get the current activation state of a body. */
+    HP_Body_GetActivationState(bodyId: HP_BodyId): [Result, ActivationState];
+    /** Set the activation behavior of a body. See `ActivationControl` for more details. */
+    HP_Body_SetActivationControl(bodyId: HP_BodyId, activationControl: ActivationControl): Result;
+    /** Set the activation priority of a body. `priority` should be in the range [-127, 127]. Defaults to 0.
+     * A body with simulation controlled activation will only be activated by interactions from other bodies
+     * whose priority is >= `priority` */
+    HP_Body_SetActivationPriority(bodyId: HP_BodyId, priority: number): Result;
     /** Allocates a new handle for a constraint object, which limits the relative movement between two bodies. */ 
     HP_Constraint_Create(): [Result, HP_ConstraintId];
     /** Release the constraint handle, freeing it's memory if not in use. */ 
@@ -319,6 +358,12 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Constraint_SetAxisMotorMaxForce(constraint : HP_ConstraintId, axis : ConstraintAxis, maxForce : number): Result;
     /** Get the max force (or torque) for a constraint motor on a particular axis. */ 
     HP_Constraint_GetAxisMotorMaxForce(constraint : HP_ConstraintId, axis : ConstraintAxis): [Result, number];
+    /** Sets the stiffness of a constraint axis. This will convert the axis from a hard limit to one which
+     *  uses a spring model, parameterized on stiffness and damping */
+    HP_Constraint_SetAxisStiffness(constraint: HP_ConstraintId, axis: ConstraintAxis, stiffness: number): Result;
+    /** Sets the damping of a constraint axis. This will convert the axis from a hard limit to one which
+     *  uses a spring model, parameterized on stiffness and damping */
+    HP_Constraint_SetAxisDamping(constraint: HP_ConstraintId, axis: ConstraintAxis, damping: number): Result;
     /** Allocate a new handle for a world, which is the basis of a simulation. */ 
     HP_World_Create(): [Result, HP_WorldId];
     /** Releases a world handle, freeing any memory used. */ 
@@ -341,12 +386,23 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_World_CastRayWithCollector(world : HP_WorldId, collector : HP_CollectorId, query : RayCastInput): Result;
     /** Simulate the world and advance time by `timestep` seconds. */ 
     HP_World_Step(world : HP_WorldId, timestep : number): Result;
+    /** Configure the ideal delta time which you intend to call HP_World_Step(). Defaults to 1/60.
+     * If the delta time passed to the world step differs from this amount, the solver parameters
+     * will be automatically adjusted, to attempt to maintain a similar effective solver stiffness.
+     * To disable this behaviour, set this value to zero. */
+    HP_World_SetIdealStepTime(world: HP_WorldId, deltaTime: number): Result;
     /** Get the first collision event generated by the previous world step. */ 
     HP_World_GetCollisionEvents(world : HP_WorldId): [Result, number];
     /** Get the next collision event, following previousEvent. */
     HP_World_GetNextCollisionEvent(world: number, previousEvent: number): number;
     /** Convert a collision event ID to a concrete type */
     HP_Event_AsCollision(eventId : number): [Result, CollisionEvent];
+    /** Get the first trigger event generated by the previous world step. */ 
+    HP_World_GetTriggerEvents(world : HP_WorldId): [Result, number];
+    /** Get the first trigger event generated by the previous world step. */ 
+    HP_World_GetNextTriggerEvent(world : HP_WorldId, previousEvent: number): [Result, number];
+    /** Get the first trigger event generated by the previous world step. */ 
+    HP_Event_AsTrigger(world : HP_WorldId): [Result, TriggerEvent];
 
     /** Allocates a query collector with sufficient capacity to store the requested number of hits. */ 
     HP_QueryCollector_Create(hitCapacity : number): [Result, HP_CollectorId];
