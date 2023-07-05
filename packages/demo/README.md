@@ -4,9 +4,11 @@ A simple project using Havok and Babylon.js.
 
 ## Starting the project
 
+In the main directory of the repository run:
+
 `npm install`
 
-`npm start`
+`npm start -w @babylonjs/havok-demo`
 
 ## Making changes
 
