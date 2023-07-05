@@ -1,0 +1,25 @@
+{
+  "name": "@babylonjs/havok-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A demo of havok using Babylon.js",
+  "scripts": {
+    "start": "npx webpack serve --config ./webpack.dev.js"
+  },
+  "author": "Babylon.js",
+  "license": "MIT",
+  "dependencies": {
+    "@babylonjs/core": "^6.10.0",
+    "@babylonjs/inspector": "^6.10.0"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.3",
+    "source-map-loader": "^4.0.1",
+    "ts-loader": "^9.4.4",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
