@@ -16,3 +16,16 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 - Add methods to control activation state of bodies
 - Add methods to control variable timestep utility (allows for improved behaviour at step frequencies faster than 60Hz)
 - Add support for soft constraints
+
+## 1.1.1
+
+- Enable motion welding for dynamic-static pairs - improves quality of object sliding over meshes
+- Fix bug where contact-finished events were not exported
+
+## 1.1.2
+
+- Fix a typescript declaration issue
+
+## 1.1.3
+
+- Allows unlimited unique combinations of linear/angular damping and gravity factor
