@@ -29,3 +29,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.1.3
 
 - Allows unlimited unique combinations of linear/angular damping and gravity factor
+
+## 1.1.4
+
+- Tweak motion welding settings to remove artifacts when spheres roll along meshes
