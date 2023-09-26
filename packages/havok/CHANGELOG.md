@@ -33,3 +33,12 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.1.4
 
 - Tweak motion welding settings to remove artifacts when spheres roll along meshes
+
+## 1.2.0
+
+- Add an interface to apply an angular impulse to bodies
+- Add a constraint motor to model a spring damper with individual position/velocity targets
+- Optimize updating constraints when changing many settings at once
+- Fix bug where changing constraint damping/stiffness had no effect until other constraint settings were changed
+- Fix bug where a small amount of angular damping was always applied to bodies, even if a lower value was requested
+
