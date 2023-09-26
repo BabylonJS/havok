@@ -46,7 +46,9 @@ export enum EventType {
 export enum ConstraintMotorType {
     NONE,
     VELOCITY,
-    POSITION
+    POSITION,
+    SPRING,
+    SPRING_FORCE
 }
 
 export enum ConstraintAxisLimitMode {
@@ -281,6 +283,8 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Body_SetTargetQTransform(bodyId : HP_BodyId, transform : QTransform): Result;
     /** Apply the impulse `impulse` to the body at the position `location` in world space. */ 
     HP_Body_ApplyImpulse(bodyId : HP_BodyId, location : Vector3, impulse : Vector3): Result;
+    /** Apply the angular impulse `impulse` to the body around it's center of mass. */
+    HP_Body_ApplyAngularImpulse(bodyId : HP_BodyId, impulse : Vector3): Result;
     /** Try to set the activation state of a body. */
     HP_Body_SetActivationState(bodyId: HP_BodyId, activationState: ActivationState): Result;
     /** Get the current activation state of a body. */
@@ -346,6 +350,12 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     /** Retrieve the maximum signed movement along the specified axis. */ 
     HP_Constraint_GetAxisMaxLimit(constraint : HP_ConstraintId, axis : ConstraintAxis): [Result, number];
     /** Enable or disable a motor on the specified axis. See ConstraintMotorType for information. */ 
+    /** Sets the stiffness of a constraint axis. This will convert the axis from a hard limit to one which
+     *  uses a spring model, parameterized on stiffness and damping */
+    HP_Constraint_SetAxisStiffness(constraint: HP_ConstraintId, axis: ConstraintAxis, stiffness: number): Result;
+    /** Sets the damping of a constraint axis. This will convert the axis from a hard limit to one which
+     *  uses a spring model, parameterized on stiffness and damping */
+    HP_Constraint_SetAxisDamping(constraint: HP_ConstraintId, axis: ConstraintAxis, damping: number): Result;
     HP_Constraint_SetAxisMotorType(constraint : HP_ConstraintId, axis : ConstraintAxis, motorType : ConstraintMotorType): Result;
     /** Get the type of motor used on the specified axis. */ 
     HP_Constraint_GetAxisMotorType(constraint : HP_ConstraintId, axis : ConstraintAxis): [Result, ConstraintMotorType];
@@ -358,12 +368,22 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Constraint_SetAxisMotorMaxForce(constraint : HP_ConstraintId, axis : ConstraintAxis, maxForce : number): Result;
     /** Get the max force (or torque) for a constraint motor on a particular axis. */ 
     HP_Constraint_GetAxisMotorMaxForce(constraint : HP_ConstraintId, axis : ConstraintAxis): [Result, number];
-    /** Sets the stiffness of a constraint axis. This will convert the axis from a hard limit to one which
-     *  uses a spring model, parameterized on stiffness and damping */
-    HP_Constraint_SetAxisStiffness(constraint: HP_ConstraintId, axis: ConstraintAxis, stiffness: number): Result;
-    /** Sets the damping of a constraint axis. This will convert the axis from a hard limit to one which
-     *  uses a spring model, parameterized on stiffness and damping */
-    HP_Constraint_SetAxisDamping(constraint: HP_ConstraintId, axis: ConstraintAxis, damping: number): Result;
+    /** Set the position target for a constraint motor on a particular axis. */
+    HP_Constraint_SetAxisMotorPositionTarget(constraint: HP_ConstraintId, axis: ConstraintAxis, target: number): Result
+    /** Get the position target for a constraint motor on a particular axis. */
+    HP_Constraint_GetAxisMotorPositionTarget(constraint: HP_ConstraintId, axis: ConstraintAxis): [Result, number];
+    /** Set the velocity target for a constraint motor on a particular axis. */
+    HP_Constraint_SetAxisMotorVelocityTarget(constraint: HP_ConstraintId, axis: ConstraintAxis, target: number): Result
+    /** Get the velocity target for a constraint motor on a particular axis. */
+    HP_Constraint_GetAxisMotorVelocityTarget(constraint: HP_ConstraintId, axis: ConstraintAxis): [Result, number];
+    /** Set the position target stiffness of a SPRING type motor. */
+    HP_Constraint_SetAxisMotorStiffness(constraint: HP_ConstraintId, axis: ConstraintAxis, stiffness: number): Result;
+    /** Get the position target stiffness of a SPRING type motor. */
+    HP_Constraint_GetAxisMotorStiffness(constraint: HP_ConstraintId, axis: ConstraintAxis): [Result, number];
+    /** Set the velocity target damping of a SPRING type motor. */
+    HP_Constraint_SetAxisMotorDamping(constraint: HP_ConstraintId, axis: ConstraintAxis, damping: number): Result;
+    /** Get the velocity target damping of a SPRING type motor. */
+    HP_Constraint_GetAxisMotorDamping(constraint: HP_ConstraintId, axis: ConstraintAxis): [Result, number];
     /** Allocate a new handle for a world, which is the basis of a simulation. */ 
     HP_World_Create(): [Result, HP_WorldId];
     /** Releases a world handle, freeing any memory used. */ 
