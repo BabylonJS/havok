@@ -41,4 +41,5 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 - Optimize updating constraints when changing many settings at once
 - Fix bug where changing constraint damping/stiffness had no effect until other constraint settings were changed
 - Fix bug where a small amount of angular damping was always applied to bodies, even if a lower value was requested
+- Fix bug where deeply-penetrating triggers could raise contact events
 
