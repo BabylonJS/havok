@@ -43,3 +43,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 - Fix bug where a small amount of angular damping was always applied to bodies, even if a lower value was requested
 - Fix bug where deeply-penetrating triggers could raise contact events
 
+## 1.2.1
+
+- Fix crash when raising trigger/contact events for bodies which have been destroyed
+
