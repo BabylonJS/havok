@@ -47,3 +47,14 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 
 - Fix crash when raising trigger/contact events for bodies which have been destroyed
 
+## 1.3.0
+
+- Add interface to perform "closest point to position" query
+- Add interface to perform "closest point to shape" query
+- Add interface to perform a "shape cast" query
+- Add additional filtering options to "ray cast" query
+- Rename spring motors for clarity
+- Fix bug where a contact event could be raised between a kinematic-static or kinematic-kinematic pair
+- Fix bug where changing constraint parameters would not activate sleeping bodies
+- Fix bug where triangle indices weren't reported for meshes inside a container shape
+- Re-enable a small amount of angular damping per-body by default
