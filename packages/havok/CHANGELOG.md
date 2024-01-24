@@ -58,3 +58,11 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 - Fix bug where changing constraint parameters would not activate sleeping bodies
 - Fix bug where triangle indices weren't reported for meshes inside a container shape
 - Re-enable a small amount of angular damping per-body by default
+
+## 1.3.1
+
+- Add interface to control body speed limits per world
+- Reduced sleeping thresholds for animated/keyframed bodies
+- Fix bug where triggers inside compounds weren't detected
+- Fix bug where heightfields were offset by a half sample size
+- Fix point query erroneously returning errors for valid queries
