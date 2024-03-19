@@ -66,3 +66,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 - Fix bug where triggers inside compounds weren't detected
 - Fix bug where heightfields were offset by a half sample size
 - Fix point query erroneously returning errors for valid queries
+
+## 1.3.2
+
+- Fix bug where a joint with a LINEAR\_DISTANCE limit would ignore "enable collisions" flag
