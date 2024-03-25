@@ -70,3 +70,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.3.2
 
 - Fix bug where a joint with a LINEAR\_DISTANCE limit would ignore "enable collisions" flag
+
+## 1.3.3
+
+- Expose methods to set/get body speed limits per world
