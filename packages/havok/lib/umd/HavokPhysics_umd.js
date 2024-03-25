@@ -1,3 +1,82 @@
+export var Result;
+(function (Result) {
+    Result[Result["RESULT_OK"] = 0] = "RESULT_OK";
+    Result[Result["RESULT_FAIL"] = 1] = "RESULT_FAIL";
+    Result[Result["RESULT_INVALIDHANDLE"] = 2] = "RESULT_INVALIDHANDLE";
+    Result[Result["RESULT_INVALIDARGS"] = 3] = "RESULT_INVALIDARGS";
+    Result[Result["RESULT_NOTIMPLEMENTED"] = 4] = "RESULT_NOTIMPLEMENTED";
+})(Result || (Result = {}));
+
+export var ShapeType;
+(function (ShapeType) {
+    ShapeType[ShapeType["COLLIDER"] = 0] = "COLLIDER";
+    ShapeType[ShapeType["CONTAINER"] = 1] = "CONTAINER";
+})(ShapeType || (ShapeType = {}));
+
+export var MotionType;
+(function (MotionType) {
+    MotionType[MotionType["STATIC"] = 0] = "STATIC";
+    MotionType[MotionType["KINEMATIC"] = 1] = "KINEMATIC";
+    MotionType[MotionType["DYNAMIC"] = 2] = "DYNAMIC";
+})(MotionType || (MotionType = {}));
+
+export var EventType;
+(function (EventType) {
+    EventType[EventType["COLLISION_STARTED"] = 0] = "COLLISION_STARTED";
+    EventType[EventType["COLLISION_CONTINUED"] = 1] = "COLLISION_CONTINUED";
+    EventType[EventType["COLLISION_FINISHED"] = 2] = "COLLISION_FINISHED";
+    EventType[EventType["TRIGGER_ENTERED"] = 3] = "TRIGGER_ENTERED";
+    EventType[EventType["TRIGGER_EXITED"] = 4] = "TRIGGER_EXITED";
+})(EventType || (EventType = {}));
+
+export var ConstraintMotorType;
+(function (ConstraintMotorType) {
+    ConstraintMotorType[ConstraintMotorType["NONE"] = 0] = "NONE";
+    ConstraintMotorType[ConstraintMotorType["VELOCITY"] = 1] = "VELOCITY";
+    ConstraintMotorType[ConstraintMotorType["POSITION"] = 2] = "POSITION";
+    ConstraintMotorType[ConstraintMotorType["SPRING_FORCE"] = 3] = "SPRING_FORCE";
+    ConstraintMotorType[ConstraintMotorType["SPRING_ACCELERATION"] = 4] = "SPRING_ACCELERATION";
+})(ConstraintMotorType || (ConstraintMotorType = {}));
+
+export var ConstraintAxisLimitMode;
+(function (ConstraintAxisLimitMode) {
+    ConstraintAxisLimitMode[ConstraintAxisLimitMode["FREE"] = 0] = "FREE";
+    ConstraintAxisLimitMode[ConstraintAxisLimitMode["LIMITED"] = 1] = "LIMITED";
+    ConstraintAxisLimitMode[ConstraintAxisLimitMode["LOCKED"] = 2] = "LOCKED";
+})(ConstraintAxisLimitMode || (ConstraintAxisLimitMode = {}));
+
+export var ConstraintAxis;
+(function (ConstraintAxis) {
+    ConstraintAxis[ConstraintAxis["LINEAR_X"] = 0] = "LINEAR_X";
+    ConstraintAxis[ConstraintAxis["LINEAR_Y"] = 1] = "LINEAR_Y";
+    ConstraintAxis[ConstraintAxis["LINEAR_Z"] = 2] = "LINEAR_Z";
+    ConstraintAxis[ConstraintAxis["ANGULAR_X"] = 3] = "ANGULAR_X";
+    ConstraintAxis[ConstraintAxis["ANGULAR_Y"] = 4] = "ANGULAR_Y";
+    ConstraintAxis[ConstraintAxis["ANGULAR_Z"] = 5] = "ANGULAR_Z";
+    ConstraintAxis[ConstraintAxis["LINEAR_DISTANCE"] = 6] = "LINEAR_DISTANCE";
+})(ConstraintAxis || (ConstraintAxis = {}));
+
+export var MaterialCombine;
+(function (MaterialCombine) {
+    MaterialCombine[MaterialCombine["GEOMETRIC_MEAN"] = 0] = "GEOMETRIC_MEAN";
+    MaterialCombine[MaterialCombine["MINIMUM"] = 1] = "MINIMUM";
+    MaterialCombine[MaterialCombine["MAXIMUM"] = 2] = "MAXIMUM";
+    MaterialCombine[MaterialCombine["ARITHMETIC_MEAN"] = 3] = "ARITHMETIC_MEAN";
+    MaterialCombine[MaterialCombine["MULTIPLY"] = 4] = "MULTIPLY";
+})(MaterialCombine || (MaterialCombine = {}));
+
+export var ActivationState;
+(function (ActivationState) {
+    ActivationState[ActivationState["ACTIVE"] = 0] = "ACTIVE";
+    ActivationState[ActivationState["INACTIVE"] = 1] = "INACTIVE";
+})(ActivationState || (ActivationState = {}));
+
+export var ActivationControl;
+(function (ActivationControl) {
+    ActivationControl[ActivationControl["SIMULATION_CONTROLLED"] = 0] = "SIMULATION_CONTROLLED";
+    ActivationControl[ActivationControl["ALWAYS_ACTIVE"] = 1] = "ALWAYS_ACTIVE";
+    ActivationControl[ActivationControl["ALWAYS_INACTIVE"] = 2] = "ALWAYS_INACTIVE";
+})(ActivationControl || (ActivationControl = {}));
 
 var HavokPhysics = (() => {
   var _scriptDir = typeof document !== 'undefined' && document.currentScript ? document.currentScript.src : undefined;
