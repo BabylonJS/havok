@@ -74,3 +74,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.3.3
 
 - Expose methods to set/get body speed limits per world
+
+## 1.3.4
+
+- Fix TypeScript declaration enum declarations
