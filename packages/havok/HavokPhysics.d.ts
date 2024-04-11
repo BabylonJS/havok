@@ -16,7 +16,7 @@ export type HP_DebugGeometryId = [bigint];
 
 export type ShapePathIterator = [/*shapeId*/ bigint, /*pathData*/ bigint];
 
-export enum Result {
+declare enum Result {
     RESULT_OK,
     RESULT_FAIL,
     RESULT_INVALIDHANDLE,
@@ -24,18 +24,18 @@ export enum Result {
     RESULT_NOTIMPLEMENTED
 }
 
-export enum ShapeType {
+declare enum ShapeType {
     COLLIDER,
     CONTAINER
 }
 
-export enum MotionType {
+declare enum MotionType {
     STATIC,
     KINEMATIC,
     DYNAMIC
 }
 
-export enum EventType {
+declare enum EventType {
     COLLISION_STARTED,
     COLLISION_CONTINUED,
     COLLISION_FINISHED,
@@ -43,7 +43,7 @@ export enum EventType {
     TRIGGER_EXITED
 }
 
-export enum ConstraintMotorType {
+declare enum ConstraintMotorType {
     NONE,
     VELOCITY,
     POSITION,
@@ -51,13 +51,13 @@ export enum ConstraintMotorType {
     SPRING_ACCELERATION
 }
 
-export enum ConstraintAxisLimitMode {
+declare enum ConstraintAxisLimitMode {
     FREE,
     LIMITED,
     LOCKED
 }
 
-export enum ConstraintAxis {
+declare enum ConstraintAxis {
     LINEAR_X,
     LINEAR_Y,
     LINEAR_Z,
@@ -67,7 +67,7 @@ export enum ConstraintAxis {
     LINEAR_DISTANCE
 }
 
-export enum MaterialCombine {
+declare enum MaterialCombine {
     GEOMETRIC_MEAN,
     MINIMUM,
     MAXIMUM,
@@ -75,12 +75,12 @@ export enum MaterialCombine {
     MULTIPLY
 }
 
-export enum ActivationState {
+declare enum ActivationState {
     ACTIVE,
     INACTIVE
 }
 
-export enum ActivationControl {
+declare enum ActivationControl {
     SIMULATION_CONTROLLED,
     ALWAYS_ACTIVE,
     ALWAYS_INACTIVE
@@ -209,6 +209,17 @@ export type ObjectStatistics = [
 ];
 
 export interface HavokPhysicsWithBindings extends EmscriptenModule {
+    // add all of the enums
+    Result: typeof Result;
+    ShapeType: typeof ShapeType;
+    MotionType: typeof MotionType;
+    EventType: typeof EventType;
+    ConstraintMotorType: typeof ConstraintMotorType;
+    ConstraintAxisLimitMode: typeof ConstraintAxisLimitMode;
+    ConstraintAxis: typeof ConstraintAxis;
+    MaterialCombine: typeof MaterialCombine;
+    ActivationState: typeof ActivationState;
+    ActivationControl: typeof ActivationControl;
     /* Return statistics on the number of allocated objects in the plugin */
     HP_GetStatistics(): [Result, ObjectStatistics];
     /** Creates geometry representing a sphere. */
