@@ -209,7 +209,6 @@ export type ObjectStatistics = [
 ];
 
 export interface HavokPhysicsWithBindings extends EmscriptenModule {
-    // add all of the enums
     Result: typeof Result;
     ShapeType: typeof ShapeType;
     MotionType: typeof MotionType;
