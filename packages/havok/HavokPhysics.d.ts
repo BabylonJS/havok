@@ -434,7 +434,7 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     /** Releases a world handle, freeing any memory used. */
     HP_World_Release(world : HP_WorldId): Result;
     /** Returns the address of the world's body buffer, for use with
-     * HP_Body_GetWorldTransformBuffer. This result can be invalidated if a
+     * HP_Body_GetWorldTransformOffset. This result can be invalidated if a
      * body is added to the world.
      */
     HP_World_GetBodyBuffer(world: HP_WorldId): [Result, number];
