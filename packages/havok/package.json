@@ -1,6 +1,6 @@
 {
   "name": "@babylonjs/havok",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "The Havok physics engine for the web",
   "type": "module",
   "main": "lib/umd/HavokPhysics_umd.js",
