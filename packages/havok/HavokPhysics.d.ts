@@ -256,6 +256,8 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Shape_GetNumChildren(container : HP_ShapeId): [Result, number];
     /** Get the type of the shape - CONTAINER or COLLIDER. */
     HP_Shape_GetType(shape : HP_ShapeId): [Result, ShapeType];
+    /** Retrieve the axis aligned bounding box of `shape` located at `worldFromShape` */
+    HP_Shape_GetBoundingBox(shape: HP_ShapeId, worldFromShape: QTransform): [Result, Aabb];
     /** Release a shape, freeing memory if it is unused. */
     HP_Shape_Release(shape : HP_ShapeId): Result;
     /** Calculates the mass properties of the shape. */
@@ -434,7 +436,7 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     /** Releases a world handle, freeing any memory used. */
     HP_World_Release(world : HP_WorldId): Result;
     /** Returns the address of the world's body buffer, for use with
-     * HP_Body_GetWorldTransformBuffer. This result can be invalidated if a
+     * HP_Body_GetWorldTransformOffset. This result can be invalidated if a
      * body is added to the world.
      */
     HP_World_GetBodyBuffer(world: HP_WorldId): [Result, number];
