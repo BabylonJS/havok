@@ -78,3 +78,8 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.3.4
 
 - Fix TypeScript declaration enum declarations
+
+## 1.3.5
+
+- Fix bug where filter masks were incorrectly applied in compound-compound collisions
+- Fix bug where "bodyToIgnore" wasn't accounted for in raycast queries
