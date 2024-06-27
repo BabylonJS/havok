@@ -16,7 +16,7 @@ export type HP_DebugGeometryId = [bigint];
 
 export type ShapePathIterator = [/*shapeId*/ bigint, /*pathData*/ bigint];
 
-declare enum Result {
+declare enum ResultEnum {
     RESULT_OK,
     RESULT_FAIL,
     RESULT_INVALIDHANDLE,
@@ -24,18 +24,19 @@ declare enum Result {
     RESULT_NOTIMPLEMENTED
 }
 
-declare enum ShapeType {
+
+declare enum ShapeTypeEnum {
     COLLIDER,
     CONTAINER
 }
 
-declare enum MotionType {
+declare enum MotionTypeEnum {
     STATIC,
     KINEMATIC,
     DYNAMIC
 }
 
-declare enum EventType {
+declare enum EventTypeEnum {
     COLLISION_STARTED,
     COLLISION_CONTINUED,
     COLLISION_FINISHED,
@@ -43,7 +44,7 @@ declare enum EventType {
     TRIGGER_EXITED
 }
 
-declare enum ConstraintMotorType {
+declare enum ConstraintMotorTypeEnum {
     NONE,
     VELOCITY,
     POSITION,
@@ -51,13 +52,13 @@ declare enum ConstraintMotorType {
     SPRING_ACCELERATION
 }
 
-declare enum ConstraintAxisLimitMode {
+declare enum ConstraintAxisLimitModeEnum {
     FREE,
     LIMITED,
     LOCKED
 }
 
-declare enum ConstraintAxis {
+declare enum ConstraintAxisEnum {
     LINEAR_X,
     LINEAR_Y,
     LINEAR_Z,
@@ -67,7 +68,7 @@ declare enum ConstraintAxis {
     LINEAR_DISTANCE
 }
 
-declare enum MaterialCombine {
+declare enum MaterialCombineEnum {
     GEOMETRIC_MEAN,
     MINIMUM,
     MAXIMUM,
@@ -75,16 +76,27 @@ declare enum MaterialCombine {
     MULTIPLY
 }
 
-declare enum ActivationState {
+declare enum ActivationStateEnum {
     ACTIVE,
     INACTIVE
 }
 
-declare enum ActivationControl {
+declare enum ActivationControlEnum {
     SIMULATION_CONTROLLED,
     ALWAYS_ACTIVE,
     ALWAYS_INACTIVE
 }
+
+export type Result = typeof ResultEnum;
+export type ShapeType = typeof ShapeTypeEnum;
+export type MotionType = typeof MotionTypeEnum;
+export type EventType = typeof EventTypeEnum;
+export type ConstraintMotorType = typeof ConstraintMotorTypeEnum;
+export type ConstraintAxisLimitMode = typeof ConstraintAxisLimitModeEnum;
+export type ConstraintAxis = typeof ConstraintAxisEnum;
+export type MaterialCombine = typeof MaterialCombineEnum;
+export type ActivationState = typeof ActivationStateEnum;
+export type ActivationControl = typeof ActivationControlEnum;
 
 export type MassProperties = [
     /* center of mass */ Vector3,
@@ -209,16 +221,16 @@ export type ObjectStatistics = [
 ];
 
 export interface HavokPhysicsWithBindings extends EmscriptenModule {
-    Result: typeof Result;
-    ShapeType: typeof ShapeType;
-    MotionType: typeof MotionType;
-    EventType: typeof EventType;
-    ConstraintMotorType: typeof ConstraintMotorType;
-    ConstraintAxisLimitMode: typeof ConstraintAxisLimitMode;
-    ConstraintAxis: typeof ConstraintAxis;
-    MaterialCombine: typeof MaterialCombine;
-    ActivationState: typeof ActivationState;
-    ActivationControl: typeof ActivationControl;
+    Result: Result;
+    ShapeType: ShapeType;
+    MotionType: MotionType;
+    EventType: EventType;
+    ConstraintMotorType: ConstraintMotorType;
+    ConstraintAxisLimitMode: ConstraintAxisLimitMode;
+    ConstraintAxis: ConstraintAxis;
+    MaterialCombine: MaterialCombine;
+    ActivationState: ActivationState;
+    ActivationControl: ActivationControl;
     /* Return statistics on the number of allocated objects in the plugin */
     HP_GetStatistics(): [Result, ObjectStatistics];
     /** Creates geometry representing a sphere. */

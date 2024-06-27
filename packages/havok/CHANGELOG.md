@@ -83,3 +83,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 
 - Fix bug where filter masks were incorrectly applied in compound-compound collisions
 - Fix bug where "bodyToIgnore" wasn't accounted for in raycast queries
+
+## 1.3.6
+
+- export enums' types instead of just declaring them
