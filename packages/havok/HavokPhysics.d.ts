@@ -24,7 +24,6 @@ declare enum ResultEnum {
     RESULT_NOTIMPLEMENTED
 }
 
-
 declare enum ShapeTypeEnum {
     COLLIDER,
     CONTAINER
@@ -276,6 +275,8 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Shape_RemoveChild(container : HP_ShapeId, childIndex : number): Result;
     /** Get the number of children of the container. */
     HP_Shape_GetNumChildren(container : HP_ShapeId): [Result, number];
+    /** Returns the HP_ShapeId of the child shape at index `childIndex` in the container. */
+    HP_Shape_GetChildShape(container : HP_ShapeId, childIndex : number) : [Result, HP_ShapeId];
     /** Get the type of the shape - CONTAINER or COLLIDER. */
     HP_Shape_GetType(shape : HP_ShapeId): [Result, ShapeType];
     /** Retrieve the axis aligned bounding box of `shape` located at `worldFromShape` */

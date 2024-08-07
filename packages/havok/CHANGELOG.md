@@ -87,3 +87,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.3.6
 
 - export enums' types instead of just declaring them
+
+## 1.3.7
+
+- Add a function `HP_Shape_GetChildShape` to access a child shape of a container by index
