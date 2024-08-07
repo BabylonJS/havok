@@ -69,7 +69,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 
 ## 1.3.2
 
-- Fix bug where a joint with a LINEAR\_DISTANCE limit would ignore "enable collisions" flag
+- Fix bug where a joint with a `LINEAR_DISTANCE` limit would ignore "enable collisions" flag
 
 ## 1.3.3
 
@@ -89,5 +89,9 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 - export enums' types instead of just declaring them
 
 ## 1.3.7
+
+- Typings fix
+
+## 1.3.8
 
 - Add a function `HP_Shape_GetChildShape` to access a child shape of a container by index
