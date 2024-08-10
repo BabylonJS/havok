@@ -271,7 +271,7 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     /** Get the collision filter info for a shape. */
     HP_Shape_GetFilterInfo(shapeId : HP_ShapeId): [Result, FilterInfo];
     /** Sets the material of the shape to the provided material. */
-    HP_Shape_SetMaterial(shapeId : HP_ShapeId, materialId : PhysicsMaterial): Result;
+    HP_Shape_SetMaterial(shapeId : HP_ShapeId, material : PhysicsMaterial): Result;
     /** Get the material associated with the shape. */
     HP_Shape_GetMaterial(shapeId : HP_ShapeId): [Result, PhysicsMaterial];
     /** Set the density of the shape. Used when calling `HP_Shape_BuildMassProperties()`. */
