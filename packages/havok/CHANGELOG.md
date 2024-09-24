@@ -95,3 +95,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.3.8
 
 - Add a function `HP_Shape_GetChildShape` to access a child shape of a container by index
+
+## 1.3.9
+
+- Update TypeScript declaration to include new methods and fixes to return types
