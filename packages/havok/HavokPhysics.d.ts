@@ -24,7 +24,6 @@ declare enum Result {
     RESULT_NOTIMPLEMENTED
 }
 
-
 declare enum ShapeType {
     COLLIDER,
     CONTAINER
@@ -241,8 +240,10 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     MaterialCombine: typeof MaterialCombine;
     ActivationState: typeof ActivationState;
     ActivationControl: typeof ActivationControl;
+
     /* Return statistics on the number of allocated objects in the plugin */
     HP_GetStatistics(): [Result, ObjectStatistics];
+
     /** Creates geometry representing a sphere. */
     HP_Shape_CreateSphere(center : Vector3, radius : number): [Result, HP_ShapeId];
     /** Creates a geometry representing a capsule. */
@@ -312,6 +313,7 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_DebugGeometry_GetInfo( geometry : HP_DebugGeometryId ) : [Result, DebugGeometryInfo];
     /** Release the reference to the debug geometry, freeing memory. */
     HP_DebugGeometry_Release( geometry : HP_DebugGeometryId ) : Result;
+
     /** Allocates a new body. */
     HP_Body_Create(): [Result, HP_BodyId];
     /** Releases a body, potentially freeing the memory. Will not remove from the world if body is in use. */
@@ -352,7 +354,19 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Body_SetQTransform(bodyId : HP_BodyId, transform : QTransform): Result;
     /** Get the transform of the body (in world space.) */
     HP_Body_GetQTransform(bodyId : HP_BodyId): [Result, QTransform];
-     /** Set the linear velocity of a body. No effect on STATIC bodies. */
+     /* Sets the position of the body (in world space.)
+     * If you wish to also set the orientation, you should use HP_Body_SetQTransform. */
+    HP_Body_SetPosition(bodyId : HP_BodyId, position : Vector3): Result;
+    /* Gets the position of the body (in world space.)
+     * Consider using HP_Body_GetQTransform instead. */
+    HP_Body_GetPosition(bodyId : HP_BodyId): [Result, Vector3];
+    /* Sets the orientation of the body (in world space.)
+     * If you wish to also set the position, you should use HP_Body_SetQTransform. */
+    HP_Body_SetOrientation(bodyId : HP_BodyId, orientation : Quaternion): Result;
+    /* Gets the orientation of the body (in world space.)
+     * Consider using HP_Body_GetQTransform instead. */
+    HP_Body_GetOrientation(bodyId : HP_BodyId): [Result, Quaternion];
+    /** Set the linear velocity of a body. No effect on STATIC bodies. */
     HP_Body_SetLinearVelocity(bodyId : HP_BodyId, linVel : Vector3): Result;
     /** Get the linear velocity of a body. */
     HP_Body_GetLinearVelocity(bodyId : HP_BodyId): [Result, Vector3];
@@ -376,6 +390,7 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
      * A body with simulation controlled activation will only be activated by interactions from other bodies
      * whose priority is >= `priority` */
     HP_Body_SetActivationPriority(bodyId: HP_BodyId, priority: number): Result;
+
     /** Allocates a new handle for a constraint object, which limits the relative movement between two bodies. */
     HP_Constraint_Create(): [Result, HP_ConstraintId];
     /** Release the constraint handle, freeing it's memory if not in use. */
@@ -437,12 +452,15 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     /** Sets the damping of a constraint axis. This will convert the axis from a hard limit to one which
      *  uses a spring model, parameterized on stiffness and damping */
     HP_Constraint_SetAxisDamping(constraint: HP_ConstraintId, axis: ConstraintAxis, damping: number): Result;
+    /** Set the motor type for a constraint axis. Controls how the motor applies forces along the axis */
     HP_Constraint_SetAxisMotorType(constraint : HP_ConstraintId, axis : ConstraintAxis, motorType : ConstraintMotorType): Result;
     /** Get the type of motor used on the specified axis. */
     HP_Constraint_GetAxisMotorType(constraint : HP_ConstraintId, axis : ConstraintAxis): [Result, ConstraintMotorType];
-    /** Set the target for the constraint motor on the specified axis. The precise meaning of target depends on the type of the constraint motor. */
+    /** Set the target for the constraint motor on the specified axis. The precise meaning of target depends on the type of the constraint motor.
+     *  Consider using the more explicit position/velocity target functions. */
     HP_Constraint_SetAxisMotorTarget(constraint : HP_ConstraintId, axis : ConstraintAxis, target : number): Result;
-    /** Get the target for the constraint motor on the specified axis. */
+    /** Get the target for the constraint motor on the specified axis.
+     *  Consider using the more explicit position/velocity target functions. */
     HP_Constraint_GetAxisMotorTarget(constraint : HP_ConstraintId, axis : ConstraintAxis): [Result, number];
     /** Set the max force for the constraint motor on the specified axis.
      * For angular axes, `maxForce` is used as a max torque. */
@@ -465,6 +483,7 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Constraint_SetAxisMotorDamping(constraint: HP_ConstraintId, axis: ConstraintAxis, damping: number): Result;
     /** Get the velocity target damping of a SPRING type motor. */
     HP_Constraint_GetAxisMotorDamping(constraint: HP_ConstraintId, axis: ConstraintAxis): [Result, number];
+
     /** Allocate a new handle for a world, which is the basis of a simulation. */
     HP_World_Create(): [Result, HP_WorldId];
     /** Releases a world handle, freeing any memory used. */
@@ -518,7 +537,7 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     /** Get the first trigger event generated by the previous world step. */
     HP_World_GetTriggerEvents(world : HP_WorldId): [Result, number];
     /** Get the first trigger event generated by the previous world step. */
-    HP_World_GetNextTriggerEvent(world : HP_WorldId, previousEvent: number): [Result, number];
+    HP_World_GetNextTriggerEvent(world : HP_WorldId, previousEvent: number): number;
     /** Get the first trigger event generated by the previous world step. */
     HP_Event_AsTrigger(eventId : number): [Result, TriggerEvent];
 
