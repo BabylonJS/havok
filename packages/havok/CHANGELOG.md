@@ -99,3 +99,9 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.3.9
 
 - Update TypeScript declaration to include new methods and fixes to return types
+
+## 1.3.10
+
+- Fix crash when using heightfield shapes
+- Fix incorrectly-applied constraint limits, when using three limited angular axes
+- Fix triggers being incorrectly detected by queries when collision mask had every bit set
