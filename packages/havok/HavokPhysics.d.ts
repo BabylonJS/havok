@@ -483,6 +483,8 @@ export interface HavokPhysicsWithBindings extends EmscriptenModule {
     HP_Constraint_SetAxisMotorDamping(constraint: HP_ConstraintId, axis: ConstraintAxis, damping: number): Result;
     /** Get the velocity target damping of a SPRING type motor. */
     HP_Constraint_GetAxisMotorDamping(constraint: HP_ConstraintId, axis: ConstraintAxis): [Result, number];
+	/** Get the linear and angular impulses applied by a constraint, in world space. */
+	HP_Constraint_GetAppliedImpulses(constraint: HP_ConstraintId): [Result, Vector3, Vector3];
 
     /** Allocate a new handle for a world, which is the basis of a simulation. */
     HP_World_Create(): [Result, HP_WorldId];

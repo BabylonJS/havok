@@ -105,3 +105,9 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 - Fix crash when using heightfield shapes
 - Fix incorrectly-applied constraint limits, when using three limited angular axes
 - Fix triggers being incorrectly detected by queries when collision mask had every bit set
+
+## 1.3.11
+
+- Fix shape path iterator returning incorrect values
+- Fix bug where constraint motors were not reaching their target
+- Add interface to retrieve the impulse applied by a constraint
