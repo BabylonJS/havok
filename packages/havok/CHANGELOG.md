@@ -111,3 +111,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 - Fix shape path iterator returning incorrect values
 - Fix bug where constraint motors were not reaching their target
 - Add interface to retrieve the impulse applied by a constraint
+
+## 1.3.12
+
+- Fix bug where angular position motors were applying force as relative to constrained bodies, instead of in expected constraint space
