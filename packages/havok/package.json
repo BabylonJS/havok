@@ -22,7 +22,9 @@
         "types": "./HavokPhysics.d.ts",
         "default": "./lib/umd/HavokPhysics_umd.js"
       }
-    }
+    },
+    "./lib/esm/HavokPhysics.wasm": "./lib/esm/HavokPhysics.wasm",
+    "./lib/umd/HavokPhysics.wasm": "./lib/umd/HavokPhysics.wasm"
   },
   "scripts": {},
   "author": "Babylon.js",
