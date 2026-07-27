@@ -115,3 +115,7 @@ Adds a variety of improvements to the WASM. Interface is backwards-compatible.
 ## 1.3.12
 
 - Fix bug where angular position motors were applying force as relative to constrained bodies, instead of in expected constraint space
+
+## 1.3.14
+
+- Fix bug where HP_World_GetNumBodies would return an incorrect value
